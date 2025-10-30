@@ -1,5 +1,6 @@
 
 from flask import Blueprint, jsonify, request
+
 from app.models.users import User
 from app.extensions import db
 
@@ -10,6 +11,8 @@ def create_user():
     """
     Create a new user
     ---
+    tags:
+      - Users
     parameters:
       - in: body
         name: user
@@ -91,6 +94,8 @@ def list_users():
     """
     Get users
     ---
+    tags:
+      - Users
     responses:
       200:
         description: Users retrieved successfully
@@ -123,6 +128,8 @@ def get_user(user_id):
     """
     Get user by ID
     ---
+    tags:
+      - Users
     parameters:
       - in: path
         name: user_id
@@ -166,13 +173,15 @@ def get_user(user_id):
       "last_name": user.last_name, 
       "email": user.email, 
       "role": user.role.value
-    })
+    }), 200
 
 @users_bp.route("/<user_id>", methods=["PUT"])
 def update_user(user_id):
     """
     Update user by ID
     ---
+    tags:
+      - Users
     parameters:
       - in: path
         name: user_id
@@ -257,6 +266,8 @@ def delete_user(user_id):
     """
     Delete user by ID
     ---
+    tags:
+      - Users
     parameters:
       - in: path
         name: user_id
@@ -280,6 +291,10 @@ def delete_user(user_id):
         return jsonify({'error': 'User not found'}), 404
     
     db.session.delete(user)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': 'Internal server error'}), 500
 
     return jsonify({'message': 'User deleted successfully'}), 200

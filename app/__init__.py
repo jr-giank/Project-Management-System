@@ -19,7 +19,7 @@ def app_init():
     Swagger(app)
 
     # Models
-    from app.models import users
+    from app import models
 
     # Routes
     register_routes(app)
