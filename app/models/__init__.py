@@ -1,2 +1,2 @@
 
-from . import users, projects
+from . import users, projects, tasks
