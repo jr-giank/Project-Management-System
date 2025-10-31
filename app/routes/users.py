@@ -3,10 +3,12 @@ from flask import Blueprint, jsonify, request
 
 from app.models.users import User
 from app.extensions import db
+from app.auth import manager_required
 
 users_bp = Blueprint('users', __name__)
 
 @users_bp.route('', methods=['POST'])
+@manager_required
 def create_user():
     """
     Create a new user
@@ -176,6 +178,7 @@ def get_user(user_id):
     }), 200
 
 @users_bp.route("/<user_id>", methods=["PUT"])
+@manager_required
 def update_user(user_id):
     """
     Update user by ID
@@ -262,6 +265,7 @@ def update_user(user_id):
     }), 200
 
 @users_bp.route("/<user_id>", methods=["DELETE"])
+@manager_required
 def delete_user(user_id):
     """
     Delete user by ID
