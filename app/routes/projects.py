@@ -137,7 +137,7 @@ def get_project(project_id):
     try:
         project_id = int(project_id)
     except ValueError:
-        return jsonify({'error': 'Invalid ID format'})
+        return jsonify({'error': 'Invalid ID format'}), 400
 
     project = Project.query.get(project_id)
     if not project:
@@ -193,7 +193,7 @@ def update_project(project_id):
     try:
         project_id = int(project_id)
     except ValueError:
-        return jsonify({'error': 'Invalid ID format'})
+        return jsonify({'error': 'Invalid ID format'}), 400
     
     project = Project.query.get(project_id)
     if not project:
@@ -244,7 +244,7 @@ def delete_project(project_id):
     try:
         project_id = int(project_id)
     except ValueError:
-        return jsonify({'error': 'Invalid ID format'})
+        return jsonify({'error': 'Invalid ID format'}), 400
     
     project = Project.query.get(project_id)
     if not project:
@@ -305,7 +305,7 @@ def create_task(project_id):
     try:
         project_id = int(project_id)
     except ValueError:
-        return jsonify({'error': 'Invalid ID format'})
+        return jsonify({'error': 'Invalid ID format'}), 400
 
     project = Project.query.get(project_id)
     if not project:
@@ -377,7 +377,7 @@ def get_tasks(project_id):
     try:
         project_id = int(project_id)
     except ValueError:
-        return jsonify({'error': 'Invalid ID format'})
+        return jsonify({'error': 'Invalid ID format'}), 400
 
     project = Project.query.get(project_id)
     if not project:

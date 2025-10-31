@@ -5,13 +5,16 @@ from config import Config
 from .extensions import db, migrate
 from .routes import register_routes
 
-def app_init():
+def app_init(config_object=Config):
 
     # Config
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_object)
     db.init_app(app)
-    migrate.init_app(app, db)
+
+    if config_object != Config:
+        migrate.init_app(app, db)
+
     app.config['SWAGGER'] = {
         "title": "Project Management API",
         "uiversion": 3
