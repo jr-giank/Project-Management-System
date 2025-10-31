@@ -69,4 +69,10 @@ curl -X POST http://127.0.0.1:5000/api/projects \
 pytest
 ```
 
+### Documentation (Sphinx)
+```bash
+# Open the docs
+open docs/_build/html/index.html
+```
+
 

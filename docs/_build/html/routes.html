@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Routes &#8212; Project Management System  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=6625fa76" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Project Management System" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="routes">
+<h1>Routes<a class="headerlink" href="#routes" title="Permalink to this heading">¶</a></h1>
+<section id="module-app.routes.users">
+<span id="users"></span><h2>Users<a class="headerlink" href="#module-app.routes.users" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.routes.users.create_user">
+<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">create_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#create_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.create_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new user
+—
+tags:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Users</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>in</strong> (<em>-</em>) – <p>body
+name: user
+description: The user to create
+schema:</p>
+<blockquote>
+<div><p>type: object
+required:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>first_name</p></li>
+<li><p>last_name</p></li>
+<li><p>email</p></li>
+<li><p>role</p></li>
+</ul>
+</div></blockquote>
+<dl class="simple">
+<dt>properties:</dt><dd><dl class="simple">
+<dt>first_name:</dt><dd><p>type: string</p>
+</dd>
+<dt>last_name:</dt><dd><p>type: string</p>
+</dd>
+<dt>email:</dt><dd><p>type: string</p>
+</dd>
+<dt>role:</dt><dd><p>type: string</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</p>
+</dd>
+</dl>
+<dl>
+<dt>responses:</dt><dd><dl>
+<dt>201:</dt><dd><p>description: User created successfully
+content:</p>
+<blockquote>
+<div><dl>
+<dt>application/json:</dt><dd><dl>
+<dt>schema:</dt><dd><p>type: object
+properties:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>id:</dt><dd><p>type: integer</p>
+</dd>
+<dt>first_name:</dt><dd><p>type: string</p>
+</dd>
+<dt>last_name:</dt><dd><p>type: string</p>
+</dd>
+<dt>email:</dt><dd><p>type: string</p>
+</dd>
+<dt>role:</dt><dd><p>type: string</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.routes.users.delete_user">
+<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">delete_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#delete_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.delete_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete user by ID
+—
+tags:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Users</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>in</strong> (<em>-</em>) – <p>path
+name: user_id
+required: true
+schema:</p>
+<blockquote>
+<div><p>type: integer</p>
+</div></blockquote>
+</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>responses:</dt><dd><dl class="simple">
+<dt>200:</dt><dd><p>description: User deleted successfully</p>
+</dd>
+<dt>404:</dt><dd><p>description: User not found</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.routes.users.get_user">
+<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">get_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#get_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.get_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get user by ID
+—
+tags:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Users</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>in</strong> (<em>-</em>) – <p>path
+name: user_id
+required: true
+schema:</p>
+<blockquote>
+<div><p>type: integer</p>
+</div></blockquote>
+</p>
+</dd>
+</dl>
+<dl>
+<dt>responses:</dt><dd><dl>
+<dt>200:</dt><dd><p>description: User retrieved successfully
+content:</p>
+<blockquote>
+<div><dl>
+<dt>application/json:</dt><dd><dl>
+<dt>schema:</dt><dd><p>type: object
+properties:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>id:</dt><dd><p>type: integer</p>
+</dd>
+<dt>first_name:</dt><dd><p>type: string</p>
+</dd>
+<dt>last_name:</dt><dd><p>type: string</p>
+</dd>
+<dt>email:</dt><dd><p>type: string</p>
+</dd>
+<dt>role:</dt><dd><p>type: string</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt>404:</dt><dd><p>description: User not found</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.routes.users.list_users">
+<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">list_users</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#list_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.list_users" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get users
+—
+tags:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Users</p></li>
+</ul>
+</div></blockquote>
+<dl>
+<dt>responses:</dt><dd><dl>
+<dt>200:</dt><dd><p>description: Users retrieved successfully
+content:</p>
+<blockquote>
+<div><dl>
+<dt>application/json:</dt><dd><dl>
+<dt>schema:</dt><dd><p>type: array
+items:</p>
+<blockquote>
+<div><p>type: object
+properties:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>id:</dt><dd><p>type: integer</p>
+</dd>
+<dt>username:</dt><dd><p>type: string</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>role:</dt><dd><p>type: string</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.routes.users.update_user">
+<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">update_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#update_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.update_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update user by ID
+—
+tags:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Users</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in</strong> (<em>-</em>) – <p>path
+name: user_id
+required: true
+schema:</p>
+<blockquote>
+<div><p>type: integer</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>in</strong> – <p>body
+name: user
+description: The user data to update
+schema:</p>
+<blockquote>
+<div><p>type: object
+properties:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>first_name:</dt><dd><p>type: string</p>
+</dd>
+<dt>last_name:</dt><dd><p>type: string</p>
+</dd>
+<dt>email:</dt><dd><p>type: string</p>
+</dd>
+<dt>role:</dt><dd><p>type: string</p>
+</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>responses:</dt><dd><dl>
+<dt>200:</dt><dd><p>description: User updated successfully
+content:</p>
+<blockquote>
+<div><dl>
+<dt>application/json:</dt><dd><dl>
+<dt>schema:</dt><dd><p>type: object
+properties:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>id:</dt><dd><p>type: integer</p>
+</dd>
+<dt>first_name:</dt><dd><p>type: string</p>
+</dd>
+<dt>last_name:</dt><dd><p>type: string</p>
+</dd>
+<dt>email:</dt><dd><p>type: string</p>
+</dd>
+<dt>role:</dt><dd><p>type: string</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt>404:</dt><dd><p>description: User not found</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-app.routes.projects">
+<span id="projects"></span><h2>Projects<a class="headerlink" href="#module-app.routes.projects" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.routes.projects.create_project">
+<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">create_project</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#create_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.create_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new project
+—
+tags:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Projects</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>in</strong> (<em>-</em>) – <p>body
+name: project
+description: The project to create
+schema:</p>
+<blockquote>
+<div><p>type: object
+required:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>name</p></li>
+</ul>
+</div></blockquote>
+<dl class="simple">
+<dt>properties:</dt><dd><dl class="simple">
+<dt>name:</dt><dd><p>type: string</p>
+</dd>
+<dt>description:</dt><dd><p>type: string</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</p>
+</dd>
+</dl>
+<dl>
+<dt>responses:</dt><dd><dl>
+<dt>201:</dt><dd><p>description: Project created successfully
+content:</p>
+<blockquote>
+<div><dl>
+<dt>application/json:</dt><dd><dl>
+<dt>schema:</dt><dd><p>type: object
+properties:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>id:</dt><dd><p>type: integer</p>
+</dd>
+<dt>name:</dt><dd><p>type: string</p>
+</dd>
+<dt>description:</dt><dd><p>type: string</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.routes.projects.create_task">
+<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">create_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#create_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.create_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new task under a project
+—
+tags:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Tasks</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in</strong> (<em>-</em>) – <p>path
+name: project_id
+required: true
+schema:</p>
+<blockquote>
+<div><p>type: integer</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>in</strong> – <p>body
+name: task
+description: The task to create
+schema:</p>
+<blockquote>
+<div><p>type: object
+required:</p>
+<blockquote>
+<div><ul>
+<li><p>title</p></li>
+</ul>
+</div></blockquote>
+<dl class="simple">
+<dt>properties:</dt><dd><dl class="simple">
+<dt>title:</dt><dd><p>type: string</p>
+</dd>
+<dt>description:</dt><dd><p>type: string</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>responses:</dt><dd><dl>
+<dt>201:</dt><dd><p>description: Task created successfully
+content:</p>
+<blockquote>
+<div><dl>
+<dt>application/json:</dt><dd><dl>
+<dt>schema:</dt><dd><p>type: object
+properties:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>id:</dt><dd><p>type: integer</p>
+</dd>
+<dt>title:</dt><dd><p>type: string</p>
+</dd>
+<dt>description:</dt><dd><p>type: string</p>
+</dd>
+<dt>project_id:</dt><dd><p>type: integer</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.routes.projects.delete_project">
+<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">delete_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#delete_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.delete_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete project by ID
+—
+tags:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Projects</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>in</strong> (<em>-</em>) – <p>path
+name: project_id
+required: true
+schema:</p>
+<blockquote>
+<div><p>type: integer</p>
+</div></blockquote>
+</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>responses:</dt><dd><dl class="simple">
+<dt>200:</dt><dd><p>description: Project deleted successfully</p>
+</dd>
+<dt>404:</dt><dd><p>description: Project not found</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.routes.projects.get_project">
+<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">get_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#get_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.get_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get project by ID
+—
+tags:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Projects</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>in</strong> (<em>-</em>) – <p>path
+name: project_id
+required: true
+schema:</p>
+<blockquote>
+<div><p>type: integer</p>
+</div></blockquote>
+</p>
+</dd>
+</dl>
+<dl>
+<dt>responses:</dt><dd><dl>
+<dt>200:</dt><dd><p>description: Project retrieved successfully
+content:</p>
+<blockquote>
+<div><dl>
+<dt>application/json:</dt><dd><dl>
+<dt>schema:</dt><dd><p>type: object
+properties:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>id:</dt><dd><p>type: integer</p>
+</dd>
+<dt>name:</dt><dd><p>type: string</p>
+</dd>
+<dt>description:</dt><dd><p>type: string</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt>404:</dt><dd><p>description: Project not found</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.routes.projects.get_projects">
+<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">get_projects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#get_projects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.get_projects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get projects
+—
+tags:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Projects</p></li>
+</ul>
+</div></blockquote>
+<dl>
+<dt>responses:</dt><dd><dl>
+<dt>200:</dt><dd><p>description: Projects retrieved successfully
+content:</p>
+<blockquote>
+<div><dl>
+<dt>application/json:</dt><dd><dl>
+<dt>schema:</dt><dd><p>type: array
+items:</p>
+<blockquote>
+<div><p>type: object
+properties:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>id:</dt><dd><p>type: integer</p>
+</dd>
+<dt>name:</dt><dd><p>type: string</p>
+</dd>
+<dt>description:</dt><dd><p>type: string</p>
+</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.routes.projects.get_tasks">
+<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">get_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#get_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.get_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get tasks under a project
+—
+tags:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Tasks</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>in</strong> (<em>-</em>) – <p>path
+name: project_id
+required: true
+schema:</p>
+<blockquote>
+<div><p>type: integer</p>
+</div></blockquote>
+</p>
+</dd>
+</dl>
+<dl>
+<dt>responses:</dt><dd><dl>
+<dt>200:</dt><dd><p>description: Tasks retrieved successfully
+content:</p>
+<blockquote>
+<div><dl>
+<dt>application/json:</dt><dd><dl>
+<dt>schema:</dt><dd><p>type: array
+items:</p>
+<blockquote>
+<div><p>type: object
+properties:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>id:</dt><dd><p>type: integer</p>
+</dd>
+<dt>title:</dt><dd><p>type: string</p>
+</dd>
+<dt>description:</dt><dd><p>type: string</p>
+</dd>
+<dt>project_id:</dt><dd><p>type: integer</p>
+</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.routes.projects.update_project">
+<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">update_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#update_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.update_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update project by ID
+—
+tags:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Projects</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in</strong> (<em>-</em>) – <p>path
+name: project_id
+required: true
+schema:</p>
+<blockquote>
+<div><p>type: integer</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>in</strong> – <p>body
+name: project
+description: The project data to update
+schema:</p>
+<blockquote>
+<div><p>type: object
+properties:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>name:</dt><dd><p>type: string</p>
+</dd>
+<dt>description:</dt><dd><p>type: string</p>
+</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>responses:</dt><dd><dl>
+<dt>200:</dt><dd><p>description: Project updated successfully
+content:</p>
+<blockquote>
+<div><dl>
+<dt>application/json:</dt><dd><dl>
+<dt>schema:</dt><dd><p>type: object
+properties:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>id:</dt><dd><p>type: integer</p>
+</dd>
+<dt>name:</dt><dd><p>type: string</p>
+</dd>
+<dt>description:</dt><dd><p>type: string</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt>404:</dt><dd><p>description: Project not found</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Project Management System</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Routes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-app.routes.users">Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-app.routes.projects">Projects</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Project Management System</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/routes.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

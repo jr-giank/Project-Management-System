@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>app.routes.projects &#8212; Project Management System  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=6625fa76" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=039e1c02" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for app.routes.projects</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">request</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.models.projects</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.models.tasks</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">db</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">manager_required</span>
+
+<span class="n">projects_bp</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s1">&#39;projects&#39;</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="create_project"><a class="viewcode-back" href="../../../routes.html#app.routes.projects.create_project">[docs]</a><span class="nd">@projects_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@manager_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_project</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a new project</span>
+<span class="sd">    ---</span>
+<span class="sd">    tags:</span>
+<span class="sd">      - Projects</span>
+<span class="sd">    parameters:</span>
+<span class="sd">      - in: body</span>
+<span class="sd">        name: project</span>
+<span class="sd">        description: The project to create</span>
+<span class="sd">        schema:</span>
+<span class="sd">          type: object</span>
+<span class="sd">          required:</span>
+<span class="sd">            - name</span>
+<span class="sd">          properties:</span>
+<span class="sd">            name:</span>
+<span class="sd">              type: string</span>
+<span class="sd">            description:</span>
+<span class="sd">              type: string</span>
+<span class="sd">    responses:</span>
+<span class="sd">      201:</span>
+<span class="sd">        description: Project created successfully</span>
+<span class="sd">        content:</span>
+<span class="sd">          application/json:</span>
+<span class="sd">            schema:</span>
+<span class="sd">              type: object</span>
+<span class="sd">              properties:</span>
+<span class="sd">                id:</span>
+<span class="sd">                  type: integer</span>
+<span class="sd">                name:</span>
+<span class="sd">                  type: string</span>
+<span class="sd">                description:</span>
+<span class="sd">                  type: string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Invalid input&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+    
+    <span class="n">data_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">data_fields</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">field</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Missing field: </span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+        
+    <span class="n">new_project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_project</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal server error&quot;</span><span class="p">}),</span> <span class="mi">500</span>
+
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">new_project</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">new_project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">new_project</span><span class="o">.</span><span class="n">description</span>
+    <span class="p">}),</span> <span class="mi">201</span></div>
+
+<div class="viewcode-block" id="get_projects"><a class="viewcode-back" href="../../../routes.html#app.routes.projects.get_projects">[docs]</a><span class="nd">@projects_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_projects</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get projects</span>
+<span class="sd">    ---</span>
+<span class="sd">    tags:</span>
+<span class="sd">      - Projects</span>
+<span class="sd">    responses:</span>
+<span class="sd">      200:</span>
+<span class="sd">        description: Projects retrieved successfully</span>
+<span class="sd">        content:</span>
+<span class="sd">          application/json:</span>
+<span class="sd">            schema:</span>
+<span class="sd">              type: array</span>
+<span class="sd">              items:</span>
+<span class="sd">                type: object</span>
+<span class="sd">                properties:</span>
+<span class="sd">                  id:</span>
+<span class="sd">                    type: integer</span>
+<span class="sd">                  name:</span>
+<span class="sd">                    type: string</span>
+<span class="sd">                  description:</span>
+<span class="sd">                    type: string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">projects</span> <span class="o">=</span> <span class="n">Project</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">([{</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">project</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">project</span><span class="o">.</span><span class="n">description</span><span class="p">}</span> <span class="k">for</span> <span class="n">project</span> <span class="ow">in</span> <span class="n">projects</span>
+    <span class="p">]),</span> <span class="mi">200</span></div>
+
+<div class="viewcode-block" id="get_project"><a class="viewcode-back" href="../../../routes.html#app.routes.projects.get_project">[docs]</a><span class="nd">@projects_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&lt;project_id&gt;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_project</span><span class="p">(</span><span class="n">project_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get project by ID</span>
+<span class="sd">    ---</span>
+<span class="sd">    tags:</span>
+<span class="sd">      - Projects</span>
+<span class="sd">    parameters:</span>
+<span class="sd">      - in: path</span>
+<span class="sd">        name: project_id</span>
+<span class="sd">        required: true</span>
+<span class="sd">        schema:</span>
+<span class="sd">          type: integer</span>
+<span class="sd">    responses:</span>
+<span class="sd">      200:</span>
+<span class="sd">        description: Project retrieved successfully</span>
+<span class="sd">        content:</span>
+<span class="sd">          application/json:</span>
+<span class="sd">            schema:</span>
+<span class="sd">              type: object</span>
+<span class="sd">              properties:</span>
+<span class="sd">                id:</span>
+<span class="sd">                  type: integer</span>
+<span class="sd">                name:</span>
+<span class="sd">                  type: string</span>
+<span class="sd">                description:</span>
+<span class="sd">                  type: string</span>
+<span class="sd">      404:</span>
+<span class="sd">        description: Project not found</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">project_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Invalid ID format&#39;</span><span class="p">}),</span> <span class="mi">400</span>
+
+    <span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Project not found&#39;</span><span class="p">}),</span> <span class="mi">404</span>
+
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">project</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">project</span><span class="o">.</span><span class="n">description</span>
+    <span class="p">}),</span> <span class="mi">200</span></div>
+
+<div class="viewcode-block" id="update_project"><a class="viewcode-back" href="../../../routes.html#app.routes.projects.update_project">[docs]</a><span class="nd">@projects_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&lt;project_id&gt;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PUT&#39;</span><span class="p">])</span>
+<span class="nd">@manager_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_project</span><span class="p">(</span><span class="n">project_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Update project by ID</span>
+<span class="sd">    ---</span>
+<span class="sd">    tags:</span>
+<span class="sd">      - Projects</span>
+<span class="sd">    parameters:</span>
+<span class="sd">      - in: path</span>
+<span class="sd">        name: project_id</span>
+<span class="sd">        required: true</span>
+<span class="sd">        schema:</span>
+<span class="sd">          type: integer</span>
+<span class="sd">      - in: body</span>
+<span class="sd">        name: project</span>
+<span class="sd">        description: The project data to update</span>
+<span class="sd">        schema:</span>
+<span class="sd">          type: object</span>
+<span class="sd">          properties:</span>
+<span class="sd">            name:</span>
+<span class="sd">              type: string</span>
+<span class="sd">            description:</span>
+<span class="sd">              type: string</span>
+<span class="sd">    responses:</span>
+<span class="sd">      200:</span>
+<span class="sd">        description: Project updated successfully</span>
+<span class="sd">        content:</span>
+<span class="sd">          application/json:</span>
+<span class="sd">            schema:</span>
+<span class="sd">              type: object</span>
+<span class="sd">              properties:</span>
+<span class="sd">                id:</span>
+<span class="sd">                  type: integer</span>
+<span class="sd">                name:</span>
+<span class="sd">                  type: string</span>
+<span class="sd">                description:</span>
+<span class="sd">                  type: string</span>
+<span class="sd">      404:</span>
+<span class="sd">        description: Project not found</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">project_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Invalid ID format&#39;</span><span class="p">}),</span> <span class="mi">400</span>
+    
+    <span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Project not found&#39;</span><span class="p">}),</span> <span class="mi">404</span>
+    
+    <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Invalid input&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+    
+    <span class="n">data_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">data_fields</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">field</span><span class="p">])</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal server error&quot;</span><span class="p">}),</span> <span class="mi">500</span>
+
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">project</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">project</span><span class="o">.</span><span class="n">description</span>
+    <span class="p">}),</span> <span class="mi">200</span></div>
+
+<div class="viewcode-block" id="delete_project"><a class="viewcode-back" href="../../../routes.html#app.routes.projects.delete_project">[docs]</a><span class="nd">@projects_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&lt;project_id&gt;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;DELETE&#39;</span><span class="p">])</span>
+<span class="nd">@manager_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">delete_project</span><span class="p">(</span><span class="n">project_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Delete project by ID</span>
+<span class="sd">    ---</span>
+<span class="sd">    tags:</span>
+<span class="sd">      - Projects</span>
+<span class="sd">    parameters:</span>
+<span class="sd">      - in: path</span>
+<span class="sd">        name: project_id</span>
+<span class="sd">        required: true</span>
+<span class="sd">        schema:</span>
+<span class="sd">          type: integer</span>
+<span class="sd">    responses:</span>
+<span class="sd">      200:</span>
+<span class="sd">        description: Project deleted successfully</span>
+<span class="sd">      404:</span>
+<span class="sd">        description: Project not found</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">project_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Invalid ID format&#39;</span><span class="p">}),</span> <span class="mi">400</span>
+    
+    <span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Project not found&#39;</span><span class="p">}),</span> <span class="mi">404</span>
+
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">project</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Internal server error&#39;</span><span class="p">}),</span> <span class="mi">500</span>
+
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;Project deleted successfully&#39;</span><span class="p">}),</span> <span class="mi">200</span></div>
+
+<div class="viewcode-block" id="create_task"><a class="viewcode-back" href="../../../routes.html#app.routes.projects.create_task">[docs]</a><span class="nd">@projects_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&lt;project_id&gt;/tasks&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@manager_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_task</span><span class="p">(</span><span class="n">project_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a new task under a project</span>
+<span class="sd">    ---</span>
+<span class="sd">    tags:</span>
+<span class="sd">      - Tasks</span>
+<span class="sd">    parameters:</span>
+<span class="sd">      - in: path</span>
+<span class="sd">        name: project_id</span>
+<span class="sd">        required: true</span>
+<span class="sd">        schema:</span>
+<span class="sd">          type: integer</span>
+<span class="sd">      - in: body</span>
+<span class="sd">        name: task</span>
+<span class="sd">        description: The task to create</span>
+<span class="sd">        schema:</span>
+<span class="sd">          type: object</span>
+<span class="sd">          required:</span>
+<span class="sd">            - title</span>
+<span class="sd">          properties:  </span>
+<span class="sd">            title:</span>
+<span class="sd">              type: string</span>
+<span class="sd">            description:</span>
+<span class="sd">              type: string</span>
+<span class="sd">    responses:</span>
+<span class="sd">      201:</span>
+<span class="sd">        description: Task created successfully</span>
+<span class="sd">        content:</span>
+<span class="sd">          application/json:</span>
+<span class="sd">            schema:</span>
+<span class="sd">              type: object</span>
+<span class="sd">              properties:</span>
+<span class="sd">                id:</span>
+<span class="sd">                  type: integer</span>
+<span class="sd">                title:</span>
+<span class="sd">                  type: string</span>
+<span class="sd">                description:</span>
+<span class="sd">                  type: string</span>
+<span class="sd">                project_id:</span>
+<span class="sd">                  type: integer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">project_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Invalid ID format&#39;</span><span class="p">}),</span> <span class="mi">400</span>
+
+    <span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Project not found&#39;</span><span class="p">}),</span> <span class="mi">404</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Invalid input&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+    
+    <span class="n">data_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">data_fields</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">field</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Missing field: </span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+        
+    <span class="n">new_task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">],</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">),</span>
+        <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span>
+    <span class="p">)</span>
+
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_task</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal server error&quot;</span><span class="p">}),</span> <span class="mi">500</span>
+
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">new_task</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">new_task</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">new_task</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+        <span class="s2">&quot;project_id&quot;</span><span class="p">:</span> <span class="n">new_task</span><span class="o">.</span><span class="n">project_id</span>
+    <span class="p">}),</span> <span class="mi">201</span></div>
+
+<div class="viewcode-block" id="get_tasks"><a class="viewcode-back" href="../../../routes.html#app.routes.projects.get_tasks">[docs]</a><span class="nd">@projects_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&lt;project_id&gt;/tasks&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_tasks</span><span class="p">(</span><span class="n">project_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get tasks under a project</span>
+<span class="sd">    ---</span>
+<span class="sd">    tags:</span>
+<span class="sd">      - Tasks</span>
+<span class="sd">    parameters:</span>
+<span class="sd">        - in: path</span>
+<span class="sd">          name: project_id</span>
+<span class="sd">          required: true</span>
+<span class="sd">          schema:</span>
+<span class="sd">            type: integer</span>
+<span class="sd">    responses:</span>
+<span class="sd">      200:</span>
+<span class="sd">        description: Tasks retrieved successfully</span>
+<span class="sd">        content:</span>
+<span class="sd">          application/json:</span>
+<span class="sd">            schema:</span>
+<span class="sd">              type: array</span>
+<span class="sd">              items:</span>
+<span class="sd">                type: object</span>
+<span class="sd">                properties:</span>
+<span class="sd">                  id:</span>
+<span class="sd">                    type: integer</span>
+<span class="sd">                  title:</span>
+<span class="sd">                    type: string</span>
+<span class="sd">                  description:</span>
+<span class="sd">                    type: string</span>
+<span class="sd">                  project_id:</span>
+<span class="sd">                    type: integer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">project_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Invalid ID format&#39;</span><span class="p">}),</span> <span class="mi">400</span>
+
+    <span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Project not found&#39;</span><span class="p">}),</span> <span class="mi">404</span>
+
+    <span class="n">tasks</span> <span class="o">=</span> <span class="n">Task</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">([{</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">task</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">task</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+        <span class="s2">&quot;project_id&quot;</span><span class="p">:</span> <span class="n">task</span><span class="o">.</span><span class="n">project_id</span><span class="p">}</span> <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span>
+    <span class="p">]),</span> <span class="mi">200</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">Project Management System</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../routes.html">Routes</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
