@@ -12,8 +12,7 @@ def app_init(config_object=Config):
     app.config.from_object(config_object)
     db.init_app(app)
 
-    if config_object != Config:
-        migrate.init_app(app, db)
+    migrate.init_app(app, db)
 
     app.config['SWAGGER'] = {
         "title": "Project Management API",

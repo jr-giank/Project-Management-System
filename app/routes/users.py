@@ -26,6 +26,8 @@ def create_user():
             - last_name
             - email
             - role
+            - password
+            - confirm_password
           properties:
             first_name:
               type: string
@@ -34,6 +36,10 @@ def create_user():
             email:
               type: string
             role:
+              type: string
+            password:
+              type: string
+            confirm_password:
               type: string
     responses:
       201:
@@ -53,23 +59,34 @@ def create_user():
                   type: string
                 role:
                   type: string
+                password:
+                  type: string
+                confirm_password:
+                  type: string
     """
 
     data = request.get_json()
     if not data:
         return jsonify({"error": "Invalid input"}), 400
     
-    data_fields = ['first_name', 'last_name', 'email', 'role']
+    data_fields = ['first_name', 'last_name', 'email', 'role', 'password', 'confirm_password']
 
     for field in data_fields:
         if field not in data:
             return jsonify({"error": f"Missing field: {field}"}), 400
         
+    if len(data['password']) < 8:
+      return jsonify({"error": "Password must be at least 8 characters long"}), 400
+        
+    if data['password'] != data['confirm_password']:
+        return jsonify({"error": "Password do not match"}), 400
+    
     new_user = User(
         first_name=data['first_name'],
         last_name=data['last_name'],
         email=data['email'],
-        role=data['role']
+        role=data['role'],
+        password=data['password']
     )
 
     db.session.add(new_user)
