@@ -111,7 +111,7 @@ def create_user(current_user):
 
 @users_bp.route("/", methods=["GET"])
 @token_required
-def list_users():
+def list_users(current_user):
     """
     Get users
     ---
@@ -135,18 +135,28 @@ def list_users():
                   type: string
     """
 
-    users = User.query.all()
-    return jsonify([{
-      "id": user.id, 
-      "first_name": user.first_name, 
-      "last_name": user.last_name, 
-      "email": user.email, 
-      "role": user.role.value} for user in users
-    ])
+    page = request.args.get("page", 1, int)
+    limit = request.args.get("per_page", 10, int)
+
+    pagination = User.query.paginate(page=page, per_page=limit, error_out=False)
+
+    return jsonify({
+        "total": pagination.total,
+        "page": pagination.page,
+        "per_page": pagination.per_page,
+        "pages": pagination.pages,
+        "data": [{
+          "id": user.id, 
+          "first_name": user.first_name, 
+          "last_name": user.last_name, 
+          "email": user.email, 
+          "role": user.role.value} for user in pagination.items
+        ]
+    }), 200
 
 @users_bp.route("/<user_id>", methods=["GET"])
 @token_required
-def get_user(user_id):
+def get_user(current_user, user_id):
     """
     Get user by ID
     ---
