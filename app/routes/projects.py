@@ -4,13 +4,14 @@ from flask import Blueprint, jsonify, request
 from app.models.projects import Project
 from app.models.tasks import Task
 from app.extensions import db
-from app.auth import manager_required
+from app.auth import token_required, manager_required
 
 projects_bp = Blueprint('projects', __name__)
 
 @projects_bp.route('', methods=['POST'])
+@token_required
 @manager_required
-def create_project():
+def create_project(current_user):
     """
     Create a new project
     ---
@@ -74,6 +75,7 @@ def create_project():
     }), 201
 
 @projects_bp.route('', methods=['GET'])
+@token_required
 def get_projects():
     """
     Get projects
@@ -106,6 +108,7 @@ def get_projects():
     ]), 200
 
 @projects_bp.route('/<project_id>', methods=['GET'])
+@token_required
 def get_project(project_id):
     """
     Get project by ID
@@ -152,8 +155,9 @@ def get_project(project_id):
     }), 200
 
 @projects_bp.route('/<project_id>', methods=['PUT'])
+@token_required
 @manager_required
-def update_project(project_id):
+def update_project(current_user, project_id):
     """
     Update project by ID
     ---
@@ -225,8 +229,9 @@ def update_project(project_id):
     }), 200
 
 @projects_bp.route('/<project_id>', methods=['DELETE'])
+@token_required
 @manager_required
-def delete_project(project_id):
+def delete_project(current_user, project_id):
     """
     Delete project by ID
     ---
@@ -264,8 +269,9 @@ def delete_project(project_id):
     return jsonify({'message': 'Project deleted successfully'}), 200
 
 @projects_bp.route('/<project_id>/tasks', methods=['POST'])
+@token_required
 @manager_required
-def create_task(project_id):
+def create_task(current_user, project_id):
     """
     Create a new task under a project
     ---
@@ -347,6 +353,7 @@ def create_task(project_id):
     }), 201
 
 @projects_bp.route('/<project_id>/tasks', methods=['GET'])
+@token_required
 def get_tasks(project_id):
     """
     Get tasks under a project

@@ -1,9 +1,14 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flasgger import Swagger
 
 from config import Config
 from .extensions import db, migrate
 from .routes import register_routes
+
+def error_handlers(app):
+    @app.errorhandler(Exception)
+    def handle_errors(e):
+        return jsonify({"error": str(e)}), 500
 
 def app_init(config_object=Config):
 
@@ -13,6 +18,7 @@ def app_init(config_object=Config):
     db.init_app(app)
 
     migrate.init_app(app, db)
+    error_handlers(app)
 
     app.config['SWAGGER'] = {
         "title": "Project Management API",
