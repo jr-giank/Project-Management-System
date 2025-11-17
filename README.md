@@ -28,7 +28,22 @@ cp env.example .env
 
 Environment variables (see `env.example`):
 - SECRET_KEY: Flask secret key
+- JWT_SECRET_KEY: JWT secret key
 - DB_URL: SQLAlchemy database URI (examples below)
+
+Generate keys
+
+```bash
+import secrets
+
+# Generate Flask secret key 
+flask_secret = secrets.token_hex(32)
+print("Flask SECRET_KEY:", flask_secret)
+
+# Generate JWT secret key
+jwt_secret = secrets.token_hex(32)
+print("JWT_SECRET_KEY:", jwt_secret)
+```
 
 Examples:
 - PostgreSQL: `postgresql+psycopg2://user:password@localhost:5432/db_name`
@@ -39,6 +54,12 @@ Flask-Migrate:
 ```bash
 # Run migrations
 flask db upgrade
+```
+
+DB Seed:
+```bash
+# Add users
+flask seed
 ```
 
 ### 3) Run the server
