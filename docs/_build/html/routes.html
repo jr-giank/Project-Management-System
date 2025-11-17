@@ -36,7 +36,7 @@
 <span id="users"></span><h2>Users<a class="headerlink" href="#module-app.routes.users" title="Permalink to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="app.routes.users.create_user">
-<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">create_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#create_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.create_user" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">create_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#create_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.create_user" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new user
 —
 tags:</p>
@@ -60,6 +60,8 @@ required:</p>
 <li><p>last_name</p></li>
 <li><p>email</p></li>
 <li><p>role</p></li>
+<li><p>password</p></li>
+<li><p>confirm_password</p></li>
 </ul>
 </div></blockquote>
 <dl class="simple">
@@ -71,6 +73,10 @@ required:</p>
 <dt>email:</dt><dd><p>type: string</p>
 </dd>
 <dt>role:</dt><dd><p>type: string</p>
+</dd>
+<dt>password:</dt><dd><p>type: string</p>
+</dd>
+<dt>confirm_password:</dt><dd><p>type: string</p>
 </dd>
 </dl>
 </dd>
@@ -100,6 +106,10 @@ properties:</p>
 </dd>
 <dt>role:</dt><dd><p>type: string</p>
 </dd>
+<dt>password:</dt><dd><p>type: string</p>
+</dd>
+<dt>confirm_password:</dt><dd><p>type: string</p>
+</dd>
 </dl>
 </div></blockquote>
 </dd>
@@ -115,7 +125,7 @@ properties:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.routes.users.delete_user">
-<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">delete_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#delete_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.delete_user" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">delete_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#delete_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.delete_user" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete user by ID
 —
 tags:</p>
@@ -149,7 +159,7 @@ schema:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.routes.users.get_user">
-<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">get_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#get_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.get_user" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">get_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#get_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.get_user" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get user by ID
 —
 tags:</p>
@@ -208,8 +218,8 @@ properties:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.routes.users.list_users">
-<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">list_users</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#list_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.list_users" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get users
+<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">list_users</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#list_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.list_users" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get users with pagination
 —
 tags:</p>
 <blockquote>
@@ -217,6 +227,24 @@ tags:</p>
 <li><p>Users</p></li>
 </ul>
 </div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>-</em>) – page
+in: query
+type: integer
+required: false
+default: 1
+description: Page number</p></li>
+<li><p><strong>name</strong> – per_page
+in: query
+type: integer
+required: false
+default: 10
+description: Number of users per page</p></li>
+</ul>
+</dd>
+</dl>
 <dl>
 <dt>responses:</dt><dd><dl>
 <dt>200:</dt><dd><p>description: Users retrieved successfully
@@ -224,7 +252,23 @@ content:</p>
 <blockquote>
 <div><dl>
 <dt>application/json:</dt><dd><dl>
-<dt>schema:</dt><dd><p>type: array
+<dt>schema:</dt><dd><p>type: object
+properties:</p>
+<blockquote>
+<div><dl>
+<dt>total:</dt><dd><p>type: integer
+description: Total number of users</p>
+</dd>
+<dt>page:</dt><dd><p>type: integer
+description: Current page number</p>
+</dd>
+<dt>per_page:</dt><dd><p>type: integer
+description: Number of users per page</p>
+</dd>
+<dt>pages:</dt><dd><p>type: integer
+description: Total number of pages</p>
+</dd>
+<dt>data:</dt><dd><p>type: array
 items:</p>
 <blockquote>
 <div><p>type: object
@@ -233,12 +277,17 @@ properties:</p>
 <div><dl class="simple">
 <dt>id:</dt><dd><p>type: integer</p>
 </dd>
-<dt>username:</dt><dd><p>type: string</p>
+<dt>first_name:</dt><dd><p>type: string</p>
+</dd>
+<dt>last_name:</dt><dd><p>type: string</p>
+</dd>
+<dt>email:</dt><dd><p>type: string</p>
+</dd>
+<dt>role:</dt><dd><p>type: string</p>
 </dd>
 </dl>
 </div></blockquote>
-<dl class="simple">
-<dt>role:</dt><dd><p>type: string</p>
+</div></blockquote>
 </dd>
 </dl>
 </div></blockquote>
@@ -255,7 +304,7 @@ properties:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.routes.users.update_user">
-<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">update_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#update_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.update_user" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">app.routes.users.</span></span><span class="sig-name descname"><span class="pre">update_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/users.html#update_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.users.update_user" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update user by ID
 —
 tags:</p>
@@ -340,7 +389,7 @@ properties:</p>
 <span id="projects"></span><h2>Projects<a class="headerlink" href="#module-app.routes.projects" title="Permalink to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="app.routes.projects.create_project">
-<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">create_project</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#create_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.create_project" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">create_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#create_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.create_project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new project
 —
 tags:</p>
@@ -408,7 +457,7 @@ properties:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.routes.projects.create_task">
-<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">create_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#create_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.create_task" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">create_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#create_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.create_task" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new task under a project
 —
 tags:</p>
@@ -488,7 +537,7 @@ properties:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.routes.projects.delete_project">
-<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">delete_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#delete_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.delete_project" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">delete_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#delete_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.delete_project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete project by ID
 —
 tags:</p>
@@ -522,7 +571,7 @@ schema:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.routes.projects.get_project">
-<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">get_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#get_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.get_project" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">get_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#get_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.get_project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get project by ID
 —
 tags:</p>
@@ -577,8 +626,8 @@ properties:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.routes.projects.get_projects">
-<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">get_projects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#get_projects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.get_projects" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get projects
+<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">get_projects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#get_projects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.get_projects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get projects with pagination
 —
 tags:</p>
 <blockquote>
@@ -586,6 +635,24 @@ tags:</p>
 <li><p>Projects</p></li>
 </ul>
 </div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>-</em>) – page
+in: query
+type: integer
+required: false
+default: 1
+description: Page number</p></li>
+<li><p><strong>name</strong> – per_page
+in: query
+type: integer
+required: false
+default: 10
+description: Number of projects per page</p></li>
+</ul>
+</dd>
+</dl>
 <dl>
 <dt>responses:</dt><dd><dl>
 <dt>200:</dt><dd><p>description: Projects retrieved successfully
@@ -593,7 +660,23 @@ content:</p>
 <blockquote>
 <div><dl>
 <dt>application/json:</dt><dd><dl>
-<dt>schema:</dt><dd><p>type: array
+<dt>schema:</dt><dd><p>type: object
+properties:</p>
+<blockquote>
+<div><dl>
+<dt>total:</dt><dd><p>type: integer
+description: Total number of projects</p>
+</dd>
+<dt>page:</dt><dd><p>type: integer
+description: Current page number</p>
+</dd>
+<dt>per_page:</dt><dd><p>type: integer
+description: Number of projects per page</p>
+</dd>
+<dt>pages:</dt><dd><p>type: integer
+description: Total number of pages</p>
+</dd>
+<dt>data:</dt><dd><p>type: array
 items:</p>
 <blockquote>
 <div><p>type: object
@@ -611,6 +694,9 @@ properties:</p>
 </div></blockquote>
 </dd>
 </dl>
+</div></blockquote>
+</dd>
+</dl>
 </dd>
 </dl>
 </div></blockquote>
@@ -622,8 +708,8 @@ properties:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.routes.projects.get_tasks">
-<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">get_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#get_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.get_tasks" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get tasks under a project
+<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">get_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#get_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.get_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get tasks under a project with pagination
 —
 tags:</p>
 <blockquote>
@@ -633,14 +719,29 @@ tags:</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>in</strong> (<em>-</em>) – <p>path
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in</strong> (<em>-</em>) – <p>path
 name: project_id
 required: true
 schema:</p>
 <blockquote>
 <div><p>type: integer</p>
 </div></blockquote>
-</p>
+<p>description: ID of the project</p>
+</p></li>
+<li><p><strong>name</strong> (<em>-</em>) – page
+in: query
+type: integer
+required: false
+default: 1
+description: Page number</p></li>
+<li><p><strong>name</strong> – per_page
+in: query
+type: integer
+required: false
+default: 10
+description: Number of tasks per page</p></li>
+</ul>
 </dd>
 </dl>
 <dl>
@@ -650,7 +751,23 @@ content:</p>
 <blockquote>
 <div><dl>
 <dt>application/json:</dt><dd><dl>
-<dt>schema:</dt><dd><p>type: array
+<dt>schema:</dt><dd><p>type: object
+properties:</p>
+<blockquote>
+<div><dl>
+<dt>total:</dt><dd><p>type: integer
+description: Total number of tasks</p>
+</dd>
+<dt>page:</dt><dd><p>type: integer
+description: Current page number</p>
+</dd>
+<dt>per_page:</dt><dd><p>type: integer
+description: Number of tasks per page</p>
+</dd>
+<dt>pages:</dt><dd><p>type: integer
+description: Total number of pages</p>
+</dd>
+<dt>data:</dt><dd><p>type: array
 items:</p>
 <blockquote>
 <div><p>type: object
@@ -663,10 +780,14 @@ properties:</p>
 </dd>
 <dt>description:</dt><dd><p>type: string</p>
 </dd>
-<dt>project_id:</dt><dd><p>type: integer</p>
+<dt>project_id:</dt><dd><p>type: integer
+description: ID of the project this task belongs to</p>
 </dd>
 </dl>
 </div></blockquote>
+</div></blockquote>
+</dd>
+</dl>
 </div></blockquote>
 </dd>
 </dl>
@@ -681,7 +802,7 @@ properties:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.routes.projects.update_project">
-<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">update_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#update_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.update_project" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">app.routes.projects.</span></span><span class="sig-name descname"><span class="pre">update_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/routes/projects.html#update_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.routes.projects.update_project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update project by ID
 —
 tags:</p>

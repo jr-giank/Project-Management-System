@@ -91,9 +91,17 @@ pytest
 ```
 
 ### Documentation (Sphinx)
+
+macOS:
 ```bash
 # Open the docs
 open docs/_build/html/index.html
+```
+
+Windows:
+```bash
+# Open the docs
+start "" "$(pwd)/docs/_build/html/index.html"
 ```
 
 

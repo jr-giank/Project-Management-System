@@ -78,26 +78,54 @@ def create_project(current_user):
 @token_required
 def get_projects(current_user):
     """
-    Get projects
+    Get projects with pagination
     ---
     tags:
       - Projects
+    parameters:
+      - name: page
+        in: query
+        type: integer
+        required: false
+        default: 1
+        description: Page number
+      - name: per_page
+        in: query
+        type: integer
+        required: false
+        default: 10
+        description: Number of projects per page
     responses:
       200:
         description: Projects retrieved successfully
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  description:
-                    type: string
+              type: object
+              properties:
+                total:
+                  type: integer
+                  description: Total number of projects
+                page:
+                  type: integer
+                  description: Current page number
+                per_page:
+                  type: integer
+                  description: Number of projects per page
+                pages:
+                  type: integer
+                  description: Total number of pages
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      description:
+                        type: string
     """
 
     page = request.args.get("page", 1, int)
@@ -366,34 +394,63 @@ def create_task(current_user, project_id):
 @token_required
 def get_tasks(current_user, project_id):
     """
-    Get tasks under a project
+    Get tasks under a project with pagination
     ---
     tags:
       - Tasks
     parameters:
-        - in: path
-          name: project_id
-          required: true
-          schema:
-            type: integer
+      - in: path
+        name: project_id
+        required: true
+        schema:
+          type: integer
+        description: ID of the project
+      - name: page
+        in: query
+        type: integer
+        required: false
+        default: 1
+        description: Page number
+      - name: per_page
+        in: query
+        type: integer
+        required: false
+        default: 10
+        description: Number of tasks per page
     responses:
       200:
         description: Tasks retrieved successfully
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  title:
-                    type: string
-                  description:
-                    type: string
-                  project_id:
-                    type: integer
+              type: object
+              properties:
+                total:
+                  type: integer
+                  description: Total number of tasks
+                page:
+                  type: integer
+                  description: Current page number
+                per_page:
+                  type: integer
+                  description: Number of tasks per page
+                pages:
+                  type: integer
+                  description: Total number of pages
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      project_id:
+                        type: integer
+                        description: ID of the project this task belongs to
     """
     page = request.args.get("page", 1, int)
     limit = request.args.get("per_page", 10, int)

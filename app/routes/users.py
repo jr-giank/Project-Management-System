@@ -113,26 +113,58 @@ def create_user(current_user):
 @token_required
 def list_users(current_user):
     """
-    Get users
+    Get users with pagination
     ---
     tags:
       - Users
+    parameters:
+      - name: page
+        in: query
+        type: integer
+        required: false
+        default: 1
+        description: Page number
+      - name: per_page
+        in: query
+        type: integer
+        required: false
+        default: 10
+        description: Number of users per page
     responses:
       200:
         description: Users retrieved successfully
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  username:
-                    type: string
-                role:
-                  type: string
+              type: object
+              properties:
+                total:
+                  type: integer
+                  description: Total number of users
+                page:
+                  type: integer
+                  description: Current page number
+                per_page:
+                  type: integer
+                  description: Number of users per page
+                pages:
+                  type: integer
+                  description: Total number of pages
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      email:
+                        type: string
+                      role:
+                        type: string
     """
 
     page = request.args.get("page", 1, int)
